@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import Films from "./models/Films.js";
 import User from "./models/User.js"
+import express from "express"
 
 dotenv.config();
 
@@ -11,6 +12,16 @@ mongoose.connect(process.env.MONGO_URI, {});
 
 const ADMIN_ID = process.env.ADMIN_ID;
 const filmSteps = {};
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.get("/", (req, res) => {
+  res.send("Bot is running...");
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 console.log('Bot Started!')
 
 // START
