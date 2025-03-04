@@ -87,6 +87,9 @@ bot.onText(/\/list/, (msg) => {
   bot.sendMessage(chatId, "📌 Bizning rasmiy kanalimizga qo‘shiling va kino kodlari bilan tanishing!", options);
 });
 
+// All list
+
+
 bot.on("message", async (msg) => {
   const chatId = msg.chat.id;
   const userId = msg.from.id;
@@ -184,7 +187,7 @@ bot.on("message", async (msg) => {
 
     if (film) {
       bot.sendVideo(chatId, film.fileId, { 
-        caption: `<a href="https://t.me/mymediauzbot"><b>🎬MyMedia</b></a> - Eng Sara Kino, Multifilm va Seriallar shu yerda!`,
+        caption: `<a href="https://t.me/mymediauzbot"><b>🎬MyMedia</b></a> - Eng Sara Kino, Multfilm va Seriallar shu yerda!`,
         parse_mode: "HTML"
       });
         
