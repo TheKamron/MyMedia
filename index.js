@@ -10,7 +10,8 @@ dotenv.config();
 const bot = new TelegramBot(process.env.BOT_TOKEN, { polling: true });
 mongoose.connect(process.env.MONGO_URI, {});
 
-const ADMIN_ID = process.env.ADMIN_ID;
+const OWNER_ID = process.env.OWNER_ID;
+const ADMIN_ID = process.env.ADMIN_ID
 const filmSteps = {};
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -22,6 +23,7 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
 console.log('Bot Started!')
 
 // START
@@ -49,12 +51,13 @@ bot.onText(/\/start/, async (msg) => {
   const adminMessage = `🆕 Yangi foydalanuvchi qo‘shildi!\n\n👤 Ismi: ${msg.from.first_name}\n🔹 Username: @${msg.from.username || "Mavjud emas"}\n🆔 ID: ${userId}\n📊 Jami foydalanuvchilar: ${totalUsers.length} ta`;
 
   bot.sendMessage(ADMIN_ID, adminMessage);
+  bot.sendMessage(OWNER_ID, adminMessage)
   bot.sendMessage(chatId, welcomeMessage);
 });
 
 // UPLOAD 
 bot.onText(/\/new/, (msg) => {
-  if (msg.from.id == ADMIN_ID) {
+  if (msg.from.id == ADMIN_ID && msg.from.id == OWNER_ID) {
     filmSteps[msg.from.id] = { step: "waitingForVideo", lastMsg: null };
     bot.sendMessage(msg.chat.id, "📌 Kino faylini yuboring.").then((sentMsg) => {
       filmSteps[msg.from.id].lastMsg = sentMsg.message_id;
@@ -66,7 +69,7 @@ bot.onText(/\/new/, (msg) => {
 bot.onText(/\/delete/, async (msg) =>{
   const userId = msg.from.id
   const chatId = msg.chat.id
-  if(userId == ADMIN_ID) {
+  if(userId == ADMIN_ID && userId == OWNER_ID) {
     filmSteps[userId] = { step: "waitingForDeleteCode", lastMsg: null};
     bot.sendMessage(chatId, "O'chirmoqchi bo'lgan faylingizning Kodini yuboring")
   }
@@ -86,8 +89,6 @@ bot.onText(/\/list/, (msg) => {
 
   bot.sendMessage(chatId, "📌 Bizning rasmiy kanalimizga qo‘shiling va kino kodlari bilan tanishing!", options);
 });
-
-// All list
 
 
 bot.on("message", async (msg) => {
