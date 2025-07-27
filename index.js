@@ -57,7 +57,7 @@ bot.onText(/\/start/, async (msg) => {
 
 // UPLOAD 
 bot.onText(/\/new/, (msg) => {
-  if (msg.from.id == ADMIN_ID && msg.from.id == OWNER_ID) {
+  if (msg.from.id == ADMIN_ID || msg.from.id == OWNER_ID) {
     filmSteps[msg.from.id] = { step: "waitingForVideo", lastMsg: null };
     bot.sendMessage(msg.chat.id, "📌 Kino faylini yuboring.").then((sentMsg) => {
       filmSteps[msg.from.id].lastMsg = sentMsg.message_id;
@@ -69,7 +69,7 @@ bot.onText(/\/new/, (msg) => {
 bot.onText(/\/delete/, async (msg) =>{
   const userId = msg.from.id
   const chatId = msg.chat.id
-  if(userId == ADMIN_ID && userId == OWNER_ID) {
+  if(userId == OWNER_ID) {
     filmSteps[userId] = { step: "waitingForDeleteCode", lastMsg: null};
     bot.sendMessage(chatId, "O'chirmoqchi bo'lgan faylingizning Kodini yuboring")
   }
@@ -143,8 +143,6 @@ bot.on("message", async (msg) => {
   if (filmSteps[userId]?.step === "waitingForCode" && !isNaN(text)) {
     await deleteLastMsg(userId);
     const existingFilm = await Films.findOne({ code: Number(text) });
-
-  
 
     if (existingFilm) {
       bot.sendMessage(chatId, "❌ Bu kod allaqachon mavjud! Yangi kod kiriting.");
