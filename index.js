@@ -10,8 +10,8 @@ dotenv.config();
 const bot = new TelegramBot(process.env.BOT_TOKEN, { polling: true });
 mongoose.connect(process.env.MONGO_URI, {});
 
-const OWNER_ID = process.env.OWNER_ID;
-const ADMIN_ID = process.env.ADMIN_ID
+const OWNER_ID = Number(process.env.OWNER_ID);
+const ADMIN_ID = Number(process.env.ADMIN_ID)
 const filmSteps = {};
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -195,3 +195,5 @@ bot.on("message", async (msg) => {
     }
   }
 });
+
+
