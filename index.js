@@ -57,7 +57,7 @@ bot.onText(/\/start/, async (msg) => {
 
 // UPLOAD 
 bot.onText(/\/new/, (msg) => {
-  if (msg.from.id == ADMIN_ID || msg.from.id == OWNER_ID) {
+  if (msg.from.id === ADMIN_ID || msg.from.id === OWNER_ID) {
     filmSteps[msg.from.id] = { step: "waitingForVideo", lastMsg: null };
     bot.sendMessage(msg.chat.id, "📌 Kino faylini yuboring.").then((sentMsg) => {
       filmSteps[msg.from.id].lastMsg = sentMsg.message_id;
@@ -195,5 +195,3 @@ bot.on("message", async (msg) => {
     }
   }
 });
-
-
