@@ -10,7 +10,7 @@ dotenv.config();
 const bot = new TelegramBot(process.env.BOT_TOKEN, { polling: true });
 mongoose.connect(process.env.MONGO_URI, {});
 
-const OWNER_ID = Number(process.env.OWNER_ID);
+const OWNER_ID = Number(process.env.OWNER_ID)
 const ADMIN_ID = Number(process.env.ADMIN_ID)
 const filmSteps = {};
 const app = express();
@@ -57,7 +57,7 @@ bot.onText(/\/start/, async (msg) => {
 
 // UPLOAD 
 bot.onText(/\/new/, (msg) => {
-  if (msg.from.id === ADMIN_ID || msg.from.id === OWNER_ID) {
+  if (msg.from.id == ADMIN_ID || msg.from.id == OWNER_ID) {
     filmSteps[msg.from.id] = { step: "waitingForVideo", lastMsg: null };
     bot.sendMessage(msg.chat.id, "📌 Kino faylini yuboring.").then((sentMsg) => {
       filmSteps[msg.from.id].lastMsg = sentMsg.message_id;
